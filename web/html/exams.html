@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exams - Marx</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            color: black;
+            height: 40px;
+            margin: 0 auto;
+            margin-top: 15px;
+            margin-bottom: -10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav span {
+            margin-left: 10px;
+            font-size: 27.667px;
+            font-weight: bold;
+        }
+
+        nav img {
+            height: 48px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        main .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        main .grid-item {
+            height: 275px;
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #d6d6d6;
+            font-size: 24px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        main .grid-item:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        main .grid-item span {
+            display: flex;
+            align-items: end;
+            height: 104%;
+         }
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="X:/Marx/web/img/Marx.png" alt="Marx Logo">
+        <span>Marx</span>
+    </nav>
+    <main>
+        <h1>Exams</h1>
+        <div class="grid">
+            <div class="grid-item">
+                <span>Sample Exam</span>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

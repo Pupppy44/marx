@@ -1,14 +1,16 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exams - Marx</title>
     <style>
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             font-family: 'Gilroy', Helvetica, sans-serif;
-            background-color: #f4f4f4;
+            background-color: hsl(0, 0%, 97%);
         }
 
         nav {
@@ -33,7 +35,7 @@
         }
 
         main {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
@@ -44,19 +46,17 @@
 
         main .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
         main .grid-item {
-            height: 275px;
+            display: flex;
+            flex-direction: column;
+            height: 250px;
             background-color: #fff;
-            padding: 20px;
-            text-align: center;
             border-radius: 8px;
             border: 1px solid #d6d6d6;
-            font-size: 24px;
-            font-weight: 500;
             transition: background-color 0.3s ease;
         }
 
@@ -65,25 +65,84 @@
             cursor: pointer;
         }
 
-        main .grid-item span {
+        main .grid-item .thumbnail {
+            height: 135px;
+            background-color: #007BFF;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        main .grid-item .content {
+            flex: 1;
+            padding: 10px;
             display: flex;
-            align-items: end;
-            height: 104%;
-         }
+            flex-direction: column;
+            justify-content: flex-end;
+            text-align: left;
+        }
+
+        main .grid-item .content .line {
+            margin: 2px 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        main .grid-item .content .title {
+            font-size: 21px;
+            font-weight: 800 !important;
+            margin-bottom: 5px;
+        }
+
+        main .grid-item.create-new {
+            background-color: hsl(0, 0%, 94%); 
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        main .grid-item.create-new:hover {
+            background-color: hsl(0, 0%, 88%);
+        }
+
+        main .grid-item .content.center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
     <nav>
-        <img src="X:/Marx/web/img/Marx.png" alt="Marx Logo">
+        <img src="../img/Marx.png" alt="Marx Logo">
         <span>Marx</span>
     </nav>
     <main>
         <h1>Exams</h1>
         <div class="grid">
             <div class="grid-item">
-                <span>Sample Exam</span>
+                <div class="thumbnail"></div>
+                <div class="content">
+                    <div class="line title">Sample Exam</div>
+                    <div class="line">Last Edited: 6/10/2025</div>
+                    <div class="line">Administered: Never</div>
+                    <div class="line">Questions: 3</div>
+                </div>
+            </div>
+            <div class="grid-item create-new">
+                <div class="content center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-plus">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <div class="line title">Create New Exam</div>
+                </div>
             </div>
         </div>
     </main>
 </body>
+
 </html>

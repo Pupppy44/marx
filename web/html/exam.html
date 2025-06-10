@@ -1,0 +1,374 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Exam - Marx</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            background-color: hsl(0, 0%, 97%);
+        }
+
+        nav {
+            color: black;
+            height: 40px;
+            margin: 0 auto;
+            margin-top: 15px;
+            margin-bottom: -10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav span {
+            margin-left: 10px;
+            font-size: 27.667px;
+            font-weight: bold;
+        }
+
+        nav img {
+            height: 48px;
+        }
+
+        main {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        main h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-actions button {
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, opacity 0.2s ease;
+            border: 1px solid #d6d6d6;
+            margin-left: 9px;
+            margin-top: 10px;
+        }
+
+        .header-actions .preview-btn {
+            background-color: #fff;
+            color: #000;
+            transition: background-color 0.2s ease;
+        }
+
+        .header-actions .preview-btn:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .header-actions .save-btn {
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #000;
+        }
+
+        .header-actions .save-btn:disabled {
+            background-color: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .tab-navigation {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 25px;
+        }
+
+        .tab-button {
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            color: #797979;
+            border-bottom: 3px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            margin-bottom: -2px;
+        }
+
+        .tab-button:hover {
+            color: #333;
+        }
+
+        .tab-button.active {
+            color: #000;
+            border-bottom-color: #000000;
+        }
+
+        .tab-content .tab-pane {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content .tab-pane.active {
+            display: block;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            font-size: 19px;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            font-weight: 500;
+            font-size: 17px;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-group option {
+            font-weight: 600;
+        }
+
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .question-item {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #d6d6d6;
+            border-radius: 9px;
+            padding: 10px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .question-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .question-item .q-number {
+            font-weight: 800;
+            font-size: 21px;
+            margin-left: 6px;
+            margin-right: 12px;
+            color: black;
+        }
+        
+        .question-item .q-text {
+            flex-grow: 1;
+            font-weight: 500;
+            font-size: 19px;
+        }
+
+        .question-item .q-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .question-item .q-actions button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.2s ease;
+        }
+
+        .question-item .q-actions button i {
+            font-size: 20px;
+            color: black;
+            margin-right: 7px;
+            transition: 0.3s ease;
+        }
+
+        .question-item .q-actions button:hover i {
+            opacity: 0.6;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <nav>
+        <img src="../img/Marx.png" alt="Marx Logo">
+        <span>Marx</span>
+    </nav>
+    <main>
+        <div class="page-header">
+            <h1>Sample Exam</h1>
+            <div class="header-actions">
+                <button class="preview-btn">Preview</button>
+                <button id="saveChangesBtn" class="save-btn" disabled>Save Changes</button>
+            </div>
+        </div>
+
+        <div class="tab-navigation">
+            <button class="tab-button active" onclick="showTab('details')">Details</button>
+            <button class="tab-button" onclick="showTab('questions')">Questions</button>
+            <button class="tab-button" onclick="showTab('settings')">Settings</button>
+        </div>
+
+        <div class="tab-content">
+            <div id="details" class="tab-pane active">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="examName">Exam Name</label>
+                        <input type="text" id="examName" value="Sample Exam">
+                    </div>
+                    <div class="form-group">
+                        <label for="examTime">Time</label>
+                        <input type="text" id="examTime" value="1 hour">
+                    </div>
+                    <div class="form-group">
+                        <label for="examDirections">Directions</label>
+                        <textarea id="examDirections">Solve each question as rapidly as possible without losing accuracy. Each question has exactly one correct answer.</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div id="questions" class="tab-pane">
+                <div class="question-list">
+                    <div class="question-item">
+                        <span class="q-number">1</span>
+                        <span class="q-text">Sample Question 1</span>
+                        <div class="q-actions">
+                            <button title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="question-item">
+                        <span class="q-number">2</span>
+                        <span class="q-text">Sample Question 2</span>
+                        <div class="q-actions">
+                            <button title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="question-item">
+                        <span class="q-number">3</span>
+                        <span class="q-text">Sample Question 3</span>
+                        <div class="q-actions">
+                            <button title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="tab-pane">
+                <div class="form-section">
+                     <div class="form-group">
+                        <label for="shuffleQuestions">Shuffle Questions</label>
+                        <select id="shuffleQuestions">
+                            <option value="disabled" selected>Disabled</option>
+                            <option value="enabled">Enabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+    function showTab(tabId) {
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        tabPanes.forEach(pane => {
+            pane.classList.remove('active');
+        });
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.classList.remove('active');
+        });
+
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const saveBtn = document.getElementById('saveChangesBtn');
+        const formInputs = document.querySelectorAll('#details input, #details textarea, #settings select');
+
+        const setDirtyState = () => {
+            saveBtn.disabled = false;
+        };
+        
+        const saveChanges = () => {
+            saveBtn.disabled = true;
+        };
+
+        formInputs.forEach(input => {
+            input.addEventListener('input', setDirtyState);
+        });
+
+        saveBtn.addEventListener('click', saveChanges);
+    });
+</script>
+
+</html>

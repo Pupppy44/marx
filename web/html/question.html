@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Editor - Marx</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            background-color: hsl(0, 0%, 97%);
+        }
+
+        nav {
+            color: black;
+            height: 40px;
+            margin: 15px auto -10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav span {
+            margin-left: 10px;
+            font-size: 27.667px;
+            font-weight: bold;
+        }
+
+        nav img {
+            height: 48px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        main h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-actions button {
+            font-family: 'Gilroy', Helvetica, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #d6d6d6;
+            cursor: pointer;
+            transition: background-color 0.2s ease, opacity 0.2s ease;
+            margin-left: 9px;
+            margin-top: 10px;
+        }
+
+        .header-actions .save-btn {
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .header-actions .save-btn:disabled {
+            background-color: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .editor-container {
+            display: flex;
+            gap: 35px;
+            margin-top: 10px;
+        }
+
+        .preview-box {
+            flex: 1;
+            background: #ffffff;
+            border: 1px solid #d6d6d6;
+            border-radius: 9px;
+            padding: 0;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .q-head {
+            display: flex;
+            align-items: stretch;
+            background: #d7d7d7;
+        }
+
+        .q-number {
+            background: #000;
+            color: #fff;
+            width: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 21px;
+        }
+
+        .q-title {
+            font-weight: 700;
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+
+        .q-points {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .q-body {
+            padding: 22px 25px 30px 25px;
+        }
+
+        .q-body ol {
+            margin-top: 16px;
+            padding-left: 25px;
+        }
+
+        .q-body li {
+            margin-bottom: 8px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .edit-panel {
+            flex: 1.1;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .prop-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .prop-row label {
+            font-weight: 500;
+            font-size: 18px;
+            white-space: nowrap;
+        }
+
+        .prop-row input[type="text"],
+        .prop-row input[type="number"] {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .prop-row input[type="text"]:focus,
+        .prop-row input[type="number"]:focus,
+        .prop-row textarea:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        #questionText {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 500;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .choices-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .choice-list {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .choice-item {
+            display: flex;
+            gap: 10px;
+        }
+
+        .choice-item input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .choice-item button {
+            width: 38px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 20px;
+            cursor: pointer;
+            background: #000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .choice-item button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .toggle-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .toggle-row label {
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .toggle-row input {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <nav>
+        <img src="../img/Marx.png" alt="Marx Logo">
+        <span>Marx</span>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <h1>Question Editor</h1>
+
+            <div class="header-actions">
+                <button id="saveBtn" class="save-btn" disabled>Save Changes</button>
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div class="preview-box">
+                <div class="q-head">
+                    <div class="q-number">1</div>
+                    <div class="q-title" id="pvTitle"></div>
+                    <div class="q-points" id="pvPoints"></div>
+                </div>
+
+                <div class="q-body">
+                    <div id="pvQuestion"></div>
+                    <ol type="A" id="pvChoices"></ol>
+                </div>
+            </div>
+
+            <div class="edit-panel">
+                <div class="prop-row">
+                    <label for="questionName">Name</label>
+                    <input type="text" id="questionName" value="Limit Warm-Up">
+                </div>
+
+                <div class="prop-row">
+                    <label for="questionPoints">Points</label>
+                    <input type="number" min="0" step="0.1" id="questionPoints" value="1">
+                </div>
+
+                <div class="prop-row" style="flex-direction: column; align-items: stretch; gap: 9px;">
+                    <label for="questionText">Question</label>
+                    <textarea id="questionText">$$\displaystyle \lim_{x \to 0} \frac{\sin x}{x}=$$</textarea>
+                </div>
+
+                <div>
+                    <div class="choices-header">
+                        <span style="font-weight: 500; font-size: 18px;">Answer Choices</span>
+                        <button id="addChoice" style="background: #000; color: #fff; border: none; border-radius: 8px; font-size: 20px; width: 38px; height: 38px; cursor: pointer;">+</button>
+                    </div>
+
+                    <div id="choicesContainer" class="choice-list"></div>
+                </div>
+
+                <div class="toggle-row">
+                    <input type="checkbox" id="showPoints">
+                    <label for="showPoints">Show Points</label>
+
+                    <input type="checkbox" id="showTitle">
+                    <label for="showTitle">Show Title</label>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const questionName = document.getElementById('questionName');
+        const questionPoints = document.getElementById('questionPoints');
+        const questionText = document.getElementById('questionText');
+        const showPoints = document.getElementById('showPoints');
+        const showTitle = document.getElementById('showTitle');
+        const choicesContainer = document.getElementById('choicesContainer');
+        const pvTitle = document.getElementById('pvTitle');
+        const pvPoints = document.getElementById('pvPoints');
+        const pvQuestion = document.getElementById('pvQuestion');
+        const pvChoices = document.getElementById('pvChoices');
+        const saveBtn = document.getElementById('saveBtn');
+
+        function createChoice(value = '') {
+            const div = document.createElement('div');
+            div.className = 'choice-item';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = value;
+
+            const del = document.createElement('button');
+            del.textContent = '-';
+            del.onclick = () => {
+                if (choicesContainer.children.length > 0) {
+                    choicesContainer.removeChild(div);
+                    updatePreview();
+                    checkAddButton();
+                }
+            };
+
+            div.appendChild(input);
+            div.appendChild(del);
+            choicesContainer.appendChild(div);
+
+            input.addEventListener('input', updatePreview);
+            checkAddButton();
+
+            return input;
+        }
+
+        function checkAddButton() {
+            document.getElementById('addChoice').disabled = choicesContainer.children.length >= 5;
+        }
+
+        function updatePreview() {
+            pvTitle.textContent = showTitle.checked ? questionName.value : '';
+            pvPoints.textContent = showPoints.checked ? `${questionPoints.value} pt${questionPoints.value == 1 ? '' : 's'}` : '';
+
+            pvQuestion.innerHTML = marked.parse(questionText.value);
+
+            pvChoices.innerHTML = '';
+            const items = [...choicesContainer.querySelectorAll('input')].map(i => i.value);
+            items.forEach(txt => {
+                const li = document.createElement('li');
+                li.innerHTML = marked.parseInline(txt);
+                pvChoices.appendChild(li);
+            });
+
+            MathJax.typesetPromise();
+            saveBtn.disabled = false;
+        }
+
+        document.getElementById('addChoice').onclick = () => {
+            if (choicesContainer.children.length < 5) {
+                createChoice();
+                updatePreview();
+            }
+        };
+
+        ['input', 'change'].forEach(evt => {
+            [questionName, questionPoints, questionText, showPoints, showTitle].forEach(el => {
+                el.addEventListener(evt, updatePreview);
+            });
+        });
+
+        saveBtn.onclick = () => {
+            saveBtn.disabled = true;
+        };
+
+        createChoice('5');
+        createChoice('6');
+        createChoice('7');
+        createChoice('1');
+        updatePreview();
+    </script>
+</body>
+
+</html>
